@@ -5,7 +5,7 @@ namespace GolfCoastEstatesBillingLogicDemo
 {
 
 //An abstract class that holds the similarities of Client and Employee
-abstract class Person
+public abstract class Person
 {
 
     //Maybe better toSetup in Billing
