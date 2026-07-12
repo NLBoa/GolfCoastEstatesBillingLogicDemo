@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
+using System.Dynamic;
 using System.Text;
 
 namespace GolfCoastEstatesBillingLogicDemo
@@ -18,15 +20,96 @@ public abstract class Person
 
 public class Employee : Person
 {
-    string[] workDay;
+    private string[] workDay;
     //I can see workDay been an array with a max amount of 7 days. Then another tab for exception day's which are dates that the employee doesn't work.
-    List<string> exceptionDay;
+    private List<Exception> exceptionDay;
     public Employee(string name, string[] workDay)
     {
         this.name = name;
         this.workDay = workDay;
-        exceptionDay = new List<string>();
+        exceptionDay = new List<Exception>();
     }
+
+    public class Exception
+        {
+
+            string date;
+            int numHouses;
+            string reason;
+
+            public string getDate()
+            {
+                return date;
+            }
+
+            public void setDate(string date)
+            {
+                this.date = date;
+            }
+            
+            public int getHouses()
+            {
+                return numHouses;
+            }
+
+            public void setHouses(int houses)
+            {
+                numHouses = houses;
+            }
+
+            public string getReason()
+            {
+                return reason;
+            }
+
+            public void setReason(string reason)
+            {
+                this.reason = reason;
+            }
+
+            //Internal seems to allow anything in control base to edit, which i don't think is the best but for now it should work
+            internal Exception(string date, string reason, int numHouses)
+            {
+                this.date = date;
+                this.numHouses = numHouses;
+                this.reason = reason;
+            }
+
+        }
+
+    public string[] getWorkDay()
+        {
+            return workDay;
+        }
+
+    public void setWorkDay(string[] newWorkDay)
+        {
+            this.workDay = newWorkDay;        
+        }
+
+    public List<Exception> getExceptions()
+        {
+            return exceptionDay;
+        }
+    
+    public void addException(string date, string reason, int numHouses)
+        {
+            exceptionDay.Add(new Exception(date, reason, numHouses));
+        }
+
+    public bool removeException(string date)
+        {
+            foreach(Exception e in exceptionDay)
+            {
+                if (e.getReason().Equals(date))
+                {
+                    exceptionDay.Remove(e);
+                    return true;
+                }
+            }
+
+            return false;
+        }
 }
 
 //Defining Client Information
