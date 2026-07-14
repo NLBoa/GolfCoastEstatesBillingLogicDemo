@@ -97,16 +97,11 @@ namespace GolfCoastEstatesBillingLogicDemo
 
         public bool removeException(string date)
         {
-            foreach (Exception e in exceptionDay)
-            {
-                if (e.getReason().Equals(date))
-                {
-                    exceptionDay.Remove(e);
-                    return true;
-                }
-            }
-
-            return false;
+            Exception found = exceptionDay.Find(e => e.getDate().Equals(date));
+            if (found == null)
+                return false;
+            exceptionDay.Remove(found);
+            return true;
         }
     }
 
@@ -163,16 +158,10 @@ namespace GolfCoastEstatesBillingLogicDemo
         //Helper method to search through houses
         private House findHouse(string address)
         {
-            foreach (House house in houses)
-            {
-                if (house.address.Equals(address))
-                {
-                    return house;
-                }
-            }
-
-            //Temp exception for now
-            throw new Exception("NO HOUSE");
+            House house = houses.Find(e => e.address.Equals(address));
+            if (house == null)
+                return null;
+            return house;
         }
 
         public void removeHouse(string address)
