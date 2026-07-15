@@ -23,11 +23,25 @@ namespace GolfCoastEstatesBillingLogicDemo
         //I can see workDay been an array with a max amount of 7 days. Then another tab for exception day's which are dates that the employee doesn't work.
         private List<Exception> exceptionDay;
 
+        private int maxDailyHouse = 6;
+
         public Employee(string name, string[] workDay)
         {
             this.name = name;
             this.workDay = workDay;
             exceptionDay = new List<Exception>();
+        }
+
+        public int getCapacityForDate(string date)
+        {
+            Exception found = exceptionDay.Find(e => e.getDate().Equals(date));
+            if (found != null)
+            {
+                return found.getHouses();
+            }
+
+            string weekday = DateTime.Parse(date).DayOfWeek.ToString();
+            return workDay.Contains(weekday) ? maxDailyHouse : 0;
         }
 
         public class Exception
@@ -75,6 +89,16 @@ namespace GolfCoastEstatesBillingLogicDemo
             }
         }
 
+        public int getMaxDailyHouse()
+        {
+            return maxDailyHouse;
+        }
+
+        public void setMaxDailyHouse(int maxDailyHouse)
+        {
+            this.maxDailyHouse = maxDailyHouse;
+        }
+
         public string[] getWorkDay()
         {
             return workDay;
@@ -117,6 +141,11 @@ namespace GolfCoastEstatesBillingLogicDemo
             houses = new List<House>();
             this.license = license;
             this.name = name;
+        }
+
+        public int getNumHouses()
+        {
+            return houses.Count;
         }
 
         //Defining the basics of House

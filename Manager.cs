@@ -17,7 +17,7 @@ namespace GolfCoastEstatesBillingLogicDemo
         private List<Employee> employers;
         private List<Client> clients;
 
-        public Manager()
+        private Manager()
         {
             employers = new List<Employee>();
             clients = new List<Client>();
