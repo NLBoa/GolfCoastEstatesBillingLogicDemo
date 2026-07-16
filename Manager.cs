@@ -23,6 +23,16 @@ namespace GolfCoastEstatesBillingLogicDemo
             clients = new List<Client>();
         }
 
+        public IReadOnlyList<Employee> getEmployees()
+        {
+            return employers.AsReadOnly();
+        }
+
+        public IReadOnlyList<Client> getClients()
+        {
+            return clients.AsReadOnly();
+        }
+
         public int getNumberOfEmployees()
         {
             return employers.Count;

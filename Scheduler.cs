@@ -19,23 +19,31 @@ namespace GolfCoastEstatesBillingLogicDemo
         }
 
         // Sum every employee's capacity for this date (0 if they don't work that weekday,
-        // exception override otherwise). This is the MWF-pool vs T/Th-pool total from the example.
         private int getTotalCapacity(DateOnly date)
         {
-            throw new NotImplementedException();
+            int tCap = 0;
+            foreach (Employee e in Manager.Instance.getEmployees())
+            {
+                tCap += e.getCapacityForDate(date);
+            }
+
+            return tCap;
         }
 
         // How many houses are already committed against this date so far.
-        // Just a safe lookup into housesBooked (return 0 if the key isn't there yet).
         private int getBookedHouses(DateOnly date)
         {
-            throw new NotImplementedException();
+            int count = housesBooked[date];
+
+            return count;
         }
 
         // getTotalCapacity(date) minus getBookedHouses(date) - what's left to give out.
         private int getAvailableSpace(DateOnly date)
         {
-            throw new NotImplementedException();
+            int count = getTotalCapacity(date) - getBookedHouses(date);
+
+            return count;
         }
 
         // Filter candidateDates down to the ones where getAvailableSpace(date) can fit
