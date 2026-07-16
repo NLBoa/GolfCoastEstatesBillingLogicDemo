@@ -9,38 +9,38 @@ namespace GolfCoastEstatesBillingLogicDemo
         );
         public static Scheduler Instance => instance.Value;
 
-        private Dictionary<string, int> housesBooked;
-        private Dictionary<string, List<Client>> bookings;
+        private Dictionary<DateOnly, int> housesBooked;
+        private Dictionary<DateOnly, List<Client>> bookings;
 
         private Scheduler()
         {
-            housesBooked = new Dictionary<string, int>();
-            bookings = new Dictionary<string, List<Client>>();
+            housesBooked = new Dictionary<DateOnly, int>();
+            bookings = new Dictionary<DateOnly, List<Client>>();
         }
 
         // Sum every employee's capacity for this date (0 if they don't work that weekday,
         // exception override otherwise). This is the MWF-pool vs T/Th-pool total from the example.
-        private int getTotalCapacity(string date)
+        private int getTotalCapacity(DateOnly date)
         {
             throw new NotImplementedException();
         }
 
         // How many houses are already committed against this date so far.
         // Just a safe lookup into housesBooked (return 0 if the key isn't there yet).
-        private int getBookedHouses(string date)
+        private int getBookedHouses(DateOnly date)
         {
             throw new NotImplementedException();
         }
 
         // getTotalCapacity(date) minus getBookedHouses(date) - what's left to give out.
-        private int getAvailableSpace(string date)
+        private int getAvailableSpace(DateOnly date)
         {
             throw new NotImplementedException();
         }
 
         // Filter candidateDates down to the ones where getAvailableSpace(date) can fit
         // client.getHouseCount() more houses.
-        public List<string> getAvailableDays(Client client, IEnumerable<string> candidateDates)
+        public List<DateOnly> getAvailableDays(Client client, IEnumerable<DateOnly> candidateDates)
         {
             throw new NotImplementedException();
         }
@@ -48,7 +48,7 @@ namespace GolfCoastEstatesBillingLogicDemo
         // Re-check getAvailableSpace(date) >= client.getHouseCount() (don't trust a stale
         // getAvailableDays result), then if it still fits: bump housesBooked[date] and
         // record the client in bookings[date]. Return false instead of throwing if it no longer fits.
-        public bool scheduleClient(Client client, string date)
+        public bool scheduleClient(Client client, DateOnly date)
         {
             throw new NotImplementedException();
         }

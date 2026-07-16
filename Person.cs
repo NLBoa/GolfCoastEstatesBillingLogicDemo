@@ -18,21 +18,21 @@ namespace GolfCoastEstatesBillingLogicDemo
 
     public class Employee : Person
     {
-        private string[] workDay;
+        private DayOfWeek[] workDay;
 
         //I can see workDay been an array with a max amount of 7 days. Then another tab for exception day's which are dates that the employee doesn't work.
         private List<Exception> exceptionDay;
 
         private int maxDailyHouse = 6;
 
-        public Employee(string name, string[] workDay)
+        public Employee(string name, DayOfWeek[] workDay)
         {
             this.name = name;
             this.workDay = workDay;
             exceptionDay = new List<Exception>();
         }
 
-        public int getCapacityForDate(string date)
+        public int getCapacityForDate(DateOnly date)
         {
             Exception found = exceptionDay.Find(e => e.getDate().Equals(date));
             if (found != null)
@@ -40,22 +40,21 @@ namespace GolfCoastEstatesBillingLogicDemo
                 return found.getHouses();
             }
 
-            string weekday = DateTime.Parse(date).DayOfWeek.ToString();
-            return workDay.Contains(weekday) ? maxDailyHouse : 0;
+            return workDay.Contains(date.DayOfWeek) ? maxDailyHouse : 0;
         }
 
         public class Exception
         {
-            string date;
+            DateOnly date;
             int numHouses;
             string reason;
 
-            public string getDate()
+            public DateOnly getDate()
             {
                 return date;
             }
 
-            public void setDate(string date)
+            public void setDate(DateOnly date)
             {
                 this.date = date;
             }
@@ -81,7 +80,7 @@ namespace GolfCoastEstatesBillingLogicDemo
             }
 
             //Internal seems to allow anything in control base to edit, which i don't think is the best but for now it should work
-            internal Exception(string date, string reason, int numHouses)
+            internal Exception(DateOnly date, string reason, int numHouses)
             {
                 this.date = date;
                 this.numHouses = numHouses;
@@ -99,12 +98,12 @@ namespace GolfCoastEstatesBillingLogicDemo
             this.maxDailyHouse = maxDailyHouse;
         }
 
-        public string[] getWorkDay()
+        public DayOfWeek[] getWorkDay()
         {
             return workDay;
         }
 
-        public void setWorkDay(string[] newWorkDay)
+        public void setWorkDay(DayOfWeek[] newWorkDay)
         {
             this.workDay = newWorkDay;
         }
@@ -114,12 +113,12 @@ namespace GolfCoastEstatesBillingLogicDemo
             return exceptionDay;
         }
 
-        public void addException(string date, string reason, int numHouses)
+        public void addException(DateOnly date, string reason, int numHouses)
         {
             exceptionDay.Add(new Exception(date, reason, numHouses));
         }
 
-        public bool removeException(string date)
+        public bool removeException(DateOnly date)
         {
             Exception found = exceptionDay.Find(e => e.getDate().Equals(date));
             if (found == null)

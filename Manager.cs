@@ -45,7 +45,7 @@ namespace GolfCoastEstatesBillingLogicDemo
             return foundClient;
         }
 
-        public Employee createEmployee(string name, string[] workday)
+        public Employee createEmployee(string name, DayOfWeek[] workday)
         {
             Employee employee = new Employee(name, workday);
             employers.Add(employee);
