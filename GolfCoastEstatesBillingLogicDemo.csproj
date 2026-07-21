@@ -6,4 +6,9 @@
     <Nullable>disable</Nullable>
     <RootNamespace>GolfCoastEstatesBillingLogicDemo</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="GolfCoastEstatesBillingLogicDemo.Tests/**/*.cs" />
+    <EmbeddedResource Remove="GolfCoastEstatesBillingLogicDemo.Tests/**/*" />
+    <None Remove="GolfCoastEstatesBillingLogicDemo.Tests/**/*" />
+  </ItemGroup>
 </Project>
