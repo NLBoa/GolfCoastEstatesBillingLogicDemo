@@ -4,7 +4,7 @@ using System.Dynamic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace GolfCoastEstatesBillingLogicDemo
+namespace EastCoastEstatesScheduling
 {
     //Class that manages list of employers / clients and scheduling
     public sealed class Manager

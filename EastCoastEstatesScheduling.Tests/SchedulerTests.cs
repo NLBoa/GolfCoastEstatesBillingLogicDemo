@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace GolfCoastEstatesBillingLogicDemo.Tests
+namespace EastCoastEstatesScheduling.Tests
 {
     // Manager and Scheduler are singletons, so each test creates its own employees/clients on
     // far-future, non-overlapping dates and cleans them up in a finally block. xUnit runs the

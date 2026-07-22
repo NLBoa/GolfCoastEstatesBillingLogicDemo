@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="GolfCoastEstatesBillingLogicDemo.csproj" />
-  <Project Path="GolfCoastEstatesBillingLogicDemo.Tests/GolfCoastEstatesBillingLogicDemo.Tests.csproj" />
+  <Project Path="EastCoastEstatesScheduling.csproj" />
+  <Project Path="EastCoastEstatesScheduling.Tests/EastCoastEstatesScheduling.Tests.csproj" />
 </Solution>

@@ -4,11 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <RootNamespace>GolfCoastEstatesBillingLogicDemo</RootNamespace>
+    <RootNamespace>EastCoastEstatesScheduling</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="GolfCoastEstatesBillingLogicDemo.Tests/**/*.cs" />
-    <EmbeddedResource Remove="GolfCoastEstatesBillingLogicDemo.Tests/**/*" />
-    <None Remove="GolfCoastEstatesBillingLogicDemo.Tests/**/*" />
+    <Compile Remove="EastCoastEstatesScheduling.Tests/**/*.cs" />
+    <EmbeddedResource Remove="EastCoastEstatesScheduling.Tests/**/*" />
+    <None Remove="EastCoastEstatesScheduling.Tests/**/*" />
   </ItemGroup>
 </Project>

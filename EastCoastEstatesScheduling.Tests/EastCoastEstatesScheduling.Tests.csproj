@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GolfCoastEstatesBillingLogicDemo.csproj" />
+    <ProjectReference Include="..\EastCoastEstatesScheduling.csproj" />
   </ItemGroup>
 
 </Project>

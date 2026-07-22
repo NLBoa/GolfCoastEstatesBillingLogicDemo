@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace GolfCoastEstatesBillingLogicDemo
+namespace EastCoastEstatesScheduling
 {
     public sealed class Scheduler
     {

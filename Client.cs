@@ -3,7 +3,7 @@ using System.ComponentModel.Design.Serialization;
 using System.Dynamic;
 using System.Text;
 
-namespace GolfCoastEstatesBillingLogicDemo
+namespace EastCoastEstatesScheduling
 {
     public class Client : Person
     {

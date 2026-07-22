@@ -1,6 +1,6 @@
 using System;
 
-namespace GolfCoastEstatesBillingLogicDemo
+namespace EastCoastEstatesScheduling
 {
     class Program
     {
