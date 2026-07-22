@@ -288,6 +288,101 @@ namespace GolfCoastEstatesBillingLogicDemo.Tests
             }
         }
 
+        // getContractDates should expand a start/end range into the same weekly sequence scheduleClient uses internally.
+        [Fact]
+        public void GetContractDates_ReturnsWeeklySequence()
+        {
+            DateOnly start = NextDateOnWeekday(DayOfWeek.Monday, 1007);
+            DateOnly end = start.AddDays(14); // three Mondays: start, +7, +14
+
+            List<DateOnly> dates = Scheduler.Instance.getContractDates(start, end);
+
+            Assert.Equal(new List<DateOnly> { start, start.AddDays(7), start.AddDays(14) }, dates);
+        }
+
+        // A successful scheduleClient call should record the contract's start/end/house count on the client.
+        [Fact]
+        public void ScheduleClient_SetsContractOnClient()
+        {
+            Employee employee = Manager.Instance.createEmployee(
+                "Test_ContractEmployee",
+                new[] { DayOfWeek.Tuesday }
+            );
+            Client client = Manager.Instance.createClient(LicenseType.PRO, "Test_ContractClient");
+            try
+            {
+                client.addHouse("1 Test Ln", "note");
+                DateOnly start = NextDateOnWeekday(DayOfWeek.Tuesday, 1008);
+                DateOnly end = start.AddDays(7);
+
+                Scheduler.Instance.scheduleClient(client, start, end, 1);
+
+                Assert.Equal(start, client.ContractStart);
+                Assert.Equal(end, client.ContractEnd);
+                Assert.Equal(1, client.ContractHouseCount);
+            }
+            finally
+            {
+                Manager.Instance.removeClient("Test_ContractClient");
+                Manager.Instance.removeEmployee("Test_ContractEmployee");
+            }
+        }
+
+        // Releasing a contract should free up the capacity it held and clear the contract fields on the client.
+        [Fact]
+        public void ReleaseContract_FreesCapacityAndClearsContractFields()
+        {
+            Employee employee = Manager.Instance.createEmployee(
+                "Test_ReleaseEmployee",
+                new[] { DayOfWeek.Wednesday }
+            );
+            employee.setMaxDailyHouse(1);
+            Client client = Manager.Instance.createClient(LicenseType.PRO, "Test_ReleaseClient");
+            try
+            {
+                client.addHouse("1 Test Ln", "note");
+                DateOnly start = NextDateOnWeekday(DayOfWeek.Wednesday, 1009);
+                DateOnly end = start.AddDays(7);
+
+                Scheduler.Instance.scheduleClient(client, start, end, 1);
+
+                bool released = Scheduler.Instance.releaseContract(client);
+                Assert.True(released);
+
+                Assert.Null(client.ContractStart);
+                Assert.Null(client.ContractEnd);
+                Assert.Equal(0, client.ContractHouseCount);
+
+                List<DateOnly> reopened = Scheduler.Instance.getAvailableDays(
+                    client,
+                    1,
+                    new List<DateOnly> { start, end }
+                );
+                Assert.Equal(2, reopened.Count);
+            }
+            finally
+            {
+                Manager.Instance.removeClient("Test_ReleaseClient");
+                Manager.Instance.removeEmployee("Test_ReleaseEmployee");
+            }
+        }
+
+        // Releasing a client with no active contract shouldn't throw or touch any bookings - it should just report false.
+        [Fact]
+        public void ReleaseContract_ReturnsFalse_WhenClientHasNoActiveContract()
+        {
+            Client client = Manager.Instance.createClient(LicenseType.PRO, "Test_NoContractClient");
+            try
+            {
+                bool released = Scheduler.Instance.releaseContract(client);
+                Assert.False(released);
+            }
+            finally
+            {
+                Manager.Instance.removeClient("Test_NoContractClient");
+            }
+        }
+
         // Finds a date on the given weekday, offset weekOffset weeks into the future, so each test works
         // against its own slice of the calendar and can't collide with another test's bookings.
         private static DateOnly NextDateOnWeekday(DayOfWeek weekday, int weekOffset)

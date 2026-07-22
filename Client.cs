@@ -11,6 +11,10 @@ namespace GolfCoastEstatesBillingLogicDemo
 
         private LicenseType license { get; set; }
 
+        public DateOnly? ContractStart { get; private set; }
+        public DateOnly? ContractEnd { get; private set; }
+        public int ContractHouseCount { get; private set; }
+
         public Client(LicenseType license, string name)
         {
             houses = new List<House>();
@@ -21,6 +25,20 @@ namespace GolfCoastEstatesBillingLogicDemo
         public int getNumHouses()
         {
             return houses.Count;
+        }
+
+        public void setContract(DateOnly start, DateOnly end, int numberHouses)
+        {
+            ContractStart = start;
+            ContractEnd = end;
+            ContractHouseCount = numberHouses;
+        }
+
+        public void clearContract()
+        {
+            ContractStart = null;
+            ContractEnd = null;
+            ContractHouseCount = 0;
         }
 
         //Defining the basics of House

@@ -80,6 +80,13 @@ namespace GolfCoastEstatesBillingLogicDemo
             }
         }
 
+        // Expands a contract's start/end into the actual sequence of visit dates, so callers can
+        // see what a contract amounts to without needing to attempt a booking.
+        public List<DateOnly> getContractDates(DateOnly start, DateOnly end)
+        {
+            return getRecurrenceDates(start, end).ToList();
+        }
+
         // Re-check getAvailableSpace(date) >= client.getHouseCount() (don't trust a stale
         // getAvailableDays result), then if it still fits: bump housesBooked[date] and
         // record the client in bookings[date]. Return false instead of throwing if it no longer fits.
@@ -88,7 +95,7 @@ namespace GolfCoastEstatesBillingLogicDemo
         public bool scheduleClient(Client client, DateOnly start, DateOnly end, int numberHouses)
         {
             //TODO: Once demo works license should be incorporated here alongside priority next month booking
-            List<DateOnly> datesToSchedule = getRecurrenceDates(start, end).ToList();
+            List<DateOnly> datesToSchedule = getContractDates(start, end);
 
             foreach (DateOnly d in datesToSchedule)
             {
@@ -110,6 +117,39 @@ namespace GolfCoastEstatesBillingLogicDemo
                 clientsForDate.Add(client);
             }
 
+            client.setContract(start, end, numberHouses);
+            return true;
+        }
+
+        // Cancels a client's active contract: frees the booked capacity on every date in the
+        // contract's recurrence and drops the client from those dates' booking lists.
+        // Returns false if the client doesn't have an active contract to release.
+        public bool releaseContract(Client client)
+        {
+            if (client.ContractStart is null || client.ContractEnd is null)
+            {
+                return false;
+            }
+
+            List<DateOnly> datesToRelease = getContractDates(
+                client.ContractStart.Value,
+                client.ContractEnd.Value
+            );
+
+            foreach (DateOnly d in datesToRelease)
+            {
+                if (housesBooked.TryGetValue(d, out int booked))
+                {
+                    housesBooked[d] = booked - client.ContractHouseCount;
+                }
+
+                if (bookings.TryGetValue(d, out List<Client> clientsForDate))
+                {
+                    clientsForDate.Remove(client);
+                }
+            }
+
+            client.clearContract();
             return true;
         }
     }
